@@ -114,7 +114,7 @@ public class Progress extends AppCompatActivity {
                         Intent PediIntent = new Intent(Progress.this.getBaseContext(), PedidList.class);
 
                         listaPed.addAll(response.body());
-                        PediIntent.putExtra("Productos",nombresP);
+                        PediIntent.putExtra("Pedidos",listaPed);
                         startActivityForResult(PediIntent, 1);
                     } else {
                         Toast.makeText(getBaseContext(), "Info: No hay pedidos realizados", Toast.LENGTH_LONG).show();
