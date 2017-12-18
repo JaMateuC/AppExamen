@@ -10,11 +10,15 @@ import android.widget.EditText;
 public class Main extends AppCompatActivity {
 
     private String operation;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bundle extras = getIntent().getExtras();
+        username = extras.getString("username");
+
     }
 
     public void ordenarProductos(){
@@ -49,10 +53,11 @@ public class Main extends AppCompatActivity {
 
     public void getNewAct(){
 
-        Intent repoIntent = new Intent(Main.getContext(),Progress.class);
+        Intent proIntent = new Intent(Main.this,Progress.class);
 
-        repoIntent.putExtra("operation", operation);
-        startActivityForResult(repoIntent,1);
+        proIntent.putExtra("operation", operation);
+        proIntent.putExtra("username",username);
+        startActivityForResult(proIntent,1);
 
     }
 

@@ -60,11 +60,12 @@ public class ExamenApp extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if(Boolean.valueOf(response.body()) && response.isSuccessful()){
-                    Intent repoIntent = new Intent(ExamenApp.,Main.class);
+
+                    Intent mainIntent = new Intent(ExamenApp.this,Main.class);
                     EditText username = (EditText) findViewById(R.id.editText);
                     String user = username.getText().toString();
-                    repoIntent.putExtra("username", user);
-                    startActivityForResult(repoIntent,1);
+                    mainIntent.putExtra("username", user);
+                    startActivityForResult(mainIntent,1);
                 }else{
                     Toast.makeText(getBaseContext(), "Error: Contrasena o username", Toast.LENGTH_LONG).show();
                 }
