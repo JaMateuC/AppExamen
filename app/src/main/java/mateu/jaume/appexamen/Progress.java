@@ -25,7 +25,8 @@ public class Progress extends AppCompatActivity {
     private ArrayList<Producto> listaPro;
     private ArrayList<Integer> compradosP;
     private ArrayList<String> nombresP;
-    private ArrayList<Double> costesP;
+    private ArrayList<String> costesP;
+    private ArrayList<Pedidos> listaPed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,13 @@ public class Progress extends AppCompatActivity {
         compradosP = new ArrayList<>();
         nombresP = new ArrayList<>();
         costesP = new ArrayList<>();
+
+        if(operacio.equals("Productos ordenados")){
+            getActivityResultsListaOrdenada();
+        }else{
+            getActivityResultsListaPedidos();
+        }
+
     }
 
     public void getActivityResultsListaOrdenada(){
@@ -59,7 +67,7 @@ public class Progress extends AppCompatActivity {
 
                 if(response.isSuccessful()) {
                     if (!response.body().isEmpty()) {
-                        Intent ProdIntent = new Intent(Progress.this, Main.class);
+                        Intent ProdIntent = new Intent(Progress.this, ProduList.class);
                         listaPro.addAll(response.body());
                         createStringLists();
                         ProdIntent.putExtra("nombres",nombresP);
@@ -84,7 +92,7 @@ public class Progress extends AppCompatActivity {
 
     }
 
-    public void getActivityResultsListaOrdenada(){
+    public void getActivityResultsListaPedidos(){
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -95,21 +103,21 @@ public class Progress extends AppCompatActivity {
 
         Rest RestApiService = retrofit.create(Rest.class);
 
-        Call<List<Producto>> call = RestApiService.getListProductos();
+        Call<List<Pedidos>> call = RestApiService.getListPedidos(username);
 
-        call.enqueue(new Callback<List<Producto>>() {
+        call.enqueue(new Callback<List<Pedidos>>() {
             @Override
-            public void onResponse(Call<List<Producto>> call, Response<List<Producto>> response) {
+            public void onResponse(Call<List<Pedidos>> call, Response<List<Pedidos>> response) {
 
                 if(response.isSuccessful()) {
                     if (!response.body().isEmpty()) {
-                        Intent ProdIntent = new Intent(Progress.this.getBaseContext(), Main.class);
+                        Intent PediIntent = new Intent(Progress.this.getBaseContext(), PedidList.class);
 
-                        listaPro.addAll(response.body());
-                        ProdIntent.putExtra("Productos",nombresP);
-                        startActivityForResult(ProdIntent, 1);
+                        listaPed.addAll(response.body());
+                        PediIntent.putExtra("Productos",nombresP);
+                        startActivityForResult(PediIntent, 1);
                     } else {
-                        Toast.makeText(getBaseContext(), "Info: No hay productos", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Info: No hay pedidos realizados", Toast.LENGTH_LONG).show();
                     }
                 }else{
                     Toast.makeText(getBaseContext(), "Error: error con la respuesta", Toast.LENGTH_LONG).show();
@@ -117,7 +125,7 @@ public class Progress extends AppCompatActivity {
 
             }
             @Override
-            public void onFailure(Call<List<Producto>> call, Throwable throwable) {
+            public void onFailure(Call<List<Pedidos>> call, Throwable throwable) {
 
                 Toast.makeText(getBaseContext(), "Error: No hay conexion con la API", Toast.LENGTH_LONG).show();
                 finish();
@@ -131,7 +139,7 @@ public class Progress extends AppCompatActivity {
         for(Producto pro: listaPro){
 
             nombresP.add(pro.getNombre());
-            costesP.add(pro.getCoste());
+            costesP.add(Double.toString(pro.getCoste()));
             compradosP.add(pro.getNumComprado());
 
         }

@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main" />
-        <activity android:name=".Progress"></activity>
+        <activity android:name=".Progress" />
+        <activity android:name=".ProduList" />
+        <activity android:name=".PedidList"></activity>
     </application>
 
 </manifest>

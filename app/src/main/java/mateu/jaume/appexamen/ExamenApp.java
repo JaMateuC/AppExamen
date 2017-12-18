@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ExamenApp extends AppCompatActivity {
 
     private static Retrofit retrofit = null;
-    public static final String BASE_URL = "http://localhost:8080/examen/";
+    public static final String BASE_URL = "http://192.168.122.1:8080/examen/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
